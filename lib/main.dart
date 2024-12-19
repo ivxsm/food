@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food/data/global_recipe.dart';
+import 'package:food/pages/home.dart';
+import 'package:food/services/api.dart';
 
-void main() {
+void main() async{
   runApp(const MainApp());
+ await Api().getdata();
 }
 
 class MainApp extends StatelessWidget {
@@ -10,11 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: Home()
     );
   }
 }
