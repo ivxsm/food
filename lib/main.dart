@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:food/data/global_recipe.dart';
 import 'package:food/pages/home.dart';
 import 'package:food/services/api.dart';
 
-void main() async{
+Future <void>  main() async {
+  await dotenv.load(fileName: '.env');
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MainApp());
- await Api().getdata();
 }
 
 class MainApp extends StatelessWidget {
@@ -14,7 +17,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Home()
+      home: Home(),
     );
   }
 }
