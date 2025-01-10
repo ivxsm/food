@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food/pages/login.dart';
 import 'package:food/pages/profile.dart';
-import 'package:food/pages/sign.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {
@@ -18,18 +18,14 @@ class AuthGate extends StatelessWidget {
               child: CircularProgressIndicator(),
             ),
           );
-        // } else if (snapshot.connectionState == ConnectionState.done) {
-        // } else {
-        //   return const Text("there's an unknown error");
          }
-
          final session = snapshot.hasData ? snapshot.data!.session : null ; 
 
          if (session != null){
           return Profile();
          }
          else {
-          return Sign();
+          return Login();
          }
       }
     );

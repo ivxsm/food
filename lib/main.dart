@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:food/data/global_recipe.dart';
 import 'package:food/pages/home.dart';
-import 'package:food/pages/sign.dart';
 import 'package:food/services/api.dart';
+import 'package:food/services/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future <void>  main() async {
@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Sign(),
+      home: AuthGate(),
     );
   }
 }
