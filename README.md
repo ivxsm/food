@@ -4,6 +4,11 @@ A new Flutter project.
 
 finish login and sign in funcion later . 
 
+
+regter and app view
+![ScreenRecording2025-01-11at10 43 49PM3-ezgif com-optimize](https://github.com/user-attachments/assets/f05596a3-70a6-4468-b185-77e344198a85)
+
+
 log in fucnion
 
 
