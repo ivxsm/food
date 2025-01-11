@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food/pages/home.dart';
 import 'package:food/pages/login.dart';
-import 'package:food/pages/profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {
@@ -22,7 +22,7 @@ class AuthGate extends StatelessWidget {
          final session = snapshot.hasData ? snapshot.data!.session : null ; 
 
          if (session != null){
-          return Profile();
+          return Home();
          }
          else {
           return Login();

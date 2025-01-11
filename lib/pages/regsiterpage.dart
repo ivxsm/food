@@ -1,34 +1,42 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:food/pages/regsiterpage.dart';
 import 'package:food/services/auth_service.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Regsiterpage extends StatefulWidget {
+  const Regsiterpage({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Regsiterpage> createState() => _RegsiterpageState();
 }
 
-class _LoginState extends State<Login> {
+class _RegsiterpageState extends State<Regsiterpage> {
 
   final authService = AuthService() ;
-
+  bool visiable = true;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _conformPasswordController = TextEditingController();
   final FocusNode focusNodemil = FocusNode();
   final FocusNode focusNodpass = FocusNode();
+  final FocusNode focusNodconform = FocusNode();
 
-  bool visiable = true;
-
-  void login () async{
+  void register () async{
     final email = _emailController.text;
     final password = _passwordController.text;
+    final conformPassword = _conformPasswordController.text;
+
+    if (password != conformPassword){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password does not match'),
+        ),
+      );
+      return;
+    }
 
     try {
-      await authService.signInWithEmailPassword(email, password);
+      await authService.signup(email, password);
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -38,7 +46,7 @@ class _LoginState extends State<Login> {
     } 
   }
 
-  @override
+   @override
   void initState() {
     super.initState();
     focusNodemil.addListener(() {
@@ -47,43 +55,23 @@ class _LoginState extends State<Login> {
     focusNodpass.addListener(() {
       setState(() {});
     });
+    focusNodconform.addListener(() {
+      setState(() {});
+    });
   }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    focusNodemil.dispose();
-    focusNodpass.dispose();
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('pick your food' , style: TextStyle(fontSize: 25),),
-                  SizedBox(
-                    width: 3.0,
-                  ),
-                  const HugeIcon(
-                icon: HugeIcons.strokeRoundedOrganicFood,
-                color: Colors.black,
-                size: 25.0,
-              ),
-              ],
-              ),
+        title: const Text(' create your account !!' , style: TextStyle(fontSize: 25),),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('login' , style: TextStyle(fontSize: 25),),
+            const Text('sign up with us ' , style: TextStyle(fontSize: 25),),
             SizedBox(
             height:50.0,
           ),
@@ -147,15 +135,33 @@ class _LoginState extends State<Login> {
               ),
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: login,
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Regsiterpage()));
+            TextField(
+              focusNode: focusNodconform,
+              controller: _conformPasswordController,
+              onTapOutside: (event) {
+                FocusScope.of(context).unfocus();
               },
-              child: const Text('Dont have an account? Register'),
+              decoration: InputDecoration(
+                suffixIcon: const HugeIcon(
+                  icon: HugeIcons.strokeRoundedPasswordValidation,
+                  color: Colors.black,
+                  size: 24.0,
+                ),
+                labelStyle: const TextStyle(fontSize: 15),
+                labelText: focusNodemil.hasFocus ? 'conform pass' : null,
+                floatingLabelAlignment: FloatingLabelAlignment.center,
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: register,
+              child: const Text('resgister'),
+              
             ),
           ],
         ),
