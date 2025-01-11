@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:food/pages/home.dart';
 import 'package:food/pages/regsiterpage.dart';
 import 'package:food/services/auth_service.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -13,8 +14,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-  final authService = AuthService() ;
+  final authService = AuthService();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -23,19 +23,29 @@ class _LoginState extends State<Login> {
 
   bool visiable = true;
 
-  void login () async{
-    final email = _emailController.text;
-    final password = _passwordController.text;
+  void login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
     try {
-      await authService.signInWithEmailPassword(email, password);
+      final response =
+          await authService.signInWithEmailPassword(email, password);
+      if (response.session != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      } else {
+        throw Exception('Login failed. Please try again.');
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
+          backgroundColor: Colors.red,
         ),
       );
-    } 
+    }
   }
 
   @override
@@ -58,35 +68,41 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('pick your food' , style: TextStyle(fontSize: 25),),
-                  SizedBox(
-                    width: 3.0,
-                  ),
-                  const HugeIcon(
-                icon: HugeIcons.strokeRoundedOrganicFood,
-                color: Colors.black,
-                size: 25.0,
-              ),
-              ],
-              ),
+        automaticallyImplyLeading: false,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'pick your food',
+              style: TextStyle(fontSize: 25),
+            ),
+            SizedBox(
+              width: 3.0,
+            ),
+            HugeIcon(
+              icon: HugeIcons.strokeRoundedOrganicFood,
+              color: Colors.black,
+              size: 25.0,
+            ),
+          ],
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('login' , style: TextStyle(fontSize: 25),),
-            SizedBox(
-            height:50.0,
-          ),
+            const Text(
+              'login',
+              style: TextStyle(fontSize: 25),
+            ),
+            const SizedBox(
+              height: 50.0,
+            ),
             TextField(
               focusNode: focusNodemil,
               controller: _emailController,
@@ -119,13 +135,14 @@ class _LoginState extends State<Login> {
               },
               decoration: InputDecoration(
                 suffixIcon: InkWell(
-                  onTap: (){
+                  onTap: () {
                     visiable = !visiable;
-                    setState(() {
-                    });
+                    setState(() {});
                   },
                   child: HugeIcon(
-                    icon: visiable? HugeIcons.strokeRoundedEye : HugeIcons.strokeRoundedViewOff,
+                    icon: visiable
+                        ? HugeIcons.strokeRoundedEye
+                        : HugeIcons.strokeRoundedViewOff,
                     color: Colors.black,
                     size: 24.0,
                   ),
@@ -135,7 +152,7 @@ class _LoginState extends State<Login> {
                 //   color: Colors.black,
                 //   size: 24.0,
                 // ),
-                
+
                 labelText: focusNodpass.hasFocus ? 'password' : null,
                 floatingLabelAlignment: FloatingLabelAlignment.center,
                 labelStyle: const TextStyle(fontSize: 15),
@@ -152,8 +169,11 @@ class _LoginState extends State<Login> {
               child: const Text('Login'),
             ),
             TextButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Regsiterpage()));
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Regsiterpage()));
               },
               child: const Text('Dont have an account? Register'),
             ),

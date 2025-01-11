@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/home.dart';
+import 'package:food/pages/profile.dart';
 
 class Bookmarks extends StatefulWidget {
   const Bookmarks({super.key});

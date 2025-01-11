@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:food/models/recipe.dart';
+import 'package:food/pages/bookmarks.dart';
+import 'package:food/pages/profile.dart';
 import 'package:food/services/api.dart';
 import 'package:food/widgets/List_Food_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +55,38 @@ class Home extends StatelessWidget {
             );
           }
         },
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+              ),
+              child: Text('where to go?'),
+            ),
+            ListTile(
+              title: const Text('home'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+              },
+            ),
+            ListTile(
+              title: const Text('BookMark'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Bookmarks()));
+              },
+            ),
+            ListTile(
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

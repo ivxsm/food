@@ -4,9 +4,14 @@ import 'package:food/pages/home.dart';
 import 'package:food/pages/login.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
